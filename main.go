@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"log"
+	"os"
 
 	"github.com/peridan9/RSS-Aggregator/internal/config" // Importing the config package to handle configuration operations.
 )
@@ -18,18 +18,27 @@ func main() {
 	if err != nil {
 		log.Fatalf("error reading config: %v", err)
 	}
-	fmt.Printf("Read config: %+v\n", cfg)
 
-	// Set the current user to "Daniel" and save the updated config.
-	err = cfg.SetUser("Daniel")
-	if err != nil {
-		log.Fatalf("error seting user: %v", err)
+	programState := &state{
+		cfg: &cfg,
 	}
 
-	// Read the config again to verify that the user was successfully updated.
-	cfg, err = config.Read()
-	if err != nil {
-		log.Fatalf("error reading config: %v", err)
+	cmds := commands{
+		registeredCommands: make(map[string]func(*state, command) error),
 	}
-	fmt.Printf("Read config again: %+v\n", cfg) // Print the updated configuration to confirm changes.
+
+	cmds.register("login", handlerLogin)
+
+	if len(os.Args) < 2 {
+		log.Fatal("Usage: cli <command> [args...]")
+		return
+	}
+
+	cmdName := os.Args[1]
+	cmdArgs := os.Args[2:]
+
+	err = cmds.run(programState, command{Name: cmdName, Args: cmdArgs})
+	if err != nil {
+		log.Fatal(err)
+	}
 }
