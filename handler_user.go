@@ -9,6 +9,15 @@ import (
 	"github.com/peridan9/RSS-Aggregator/internal/database"
 )
 
+func handlerReset(s *state, cmd command) error {
+	err := s.db.DeleteAll(context.Background())
+	if err != nil {
+		return fmt.Errorf("failed to reset table: %v", err)
+	}
+	fmt.Println("successfuly rested table!")
+	return nil
+}
+
 func handlerRegister(s *state, cmd command) error {
 	if len(cmd.Args) != 1 {
 		return fmt.Errorf("usage: %s <name>", cmd.Name)
