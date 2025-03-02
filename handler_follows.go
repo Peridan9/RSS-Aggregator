@@ -9,11 +9,7 @@ import (
 	"github.com/peridan9/RSS-Aggregator/internal/database"
 )
 
-func handlerFollowsPerUser(s *state, cmd command) error {
-	user, err := s.db.GetUser(context.Background(), s.cfg.CurrentUser)
-	if err != nil {
-		return err
-	}
+func handlerFollowsPerUser(s *state, cmd command, user database.User) error {
 
 	follows, err := s.db.GetFeedFollowsForUser(context.Background(), user.ID)
 	if err != nil {
