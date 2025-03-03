@@ -9,6 +9,7 @@ import (
 	"github.com/peridan9/RSS-Aggregator/internal/database"
 )
 
+// handlerReset is a command that resets the database table
 func handlerReset(s *state, cmd command) error {
 	err := s.db.DeleteAll(context.Background())
 	if err != nil {
@@ -18,6 +19,7 @@ func handlerReset(s *state, cmd command) error {
 	return nil
 }
 
+// handlerRegister is a command that registers a new user
 func handlerRegister(s *state, cmd command) error {
 	if len(cmd.Args) != 1 {
 		return fmt.Errorf("usage: %s <name>", cmd.Name)
@@ -46,6 +48,7 @@ func handlerRegister(s *state, cmd command) error {
 	return nil
 }
 
+// handlerLogin is a command that logs in a user
 func handlerLogin(s *state, cmd command) error {
 	if len(cmd.Args) != 1 {
 		return fmt.Errorf("usage: %s <name>", cmd.Name)
@@ -68,6 +71,7 @@ func handlerLogin(s *state, cmd command) error {
 
 }
 
+// handlerUsers is a command that lists all users
 func handlerUsers(s *state, cmd command) error {
 	users, err := s.db.GetUsers(context.Background())
 	if err != nil {
@@ -83,6 +87,7 @@ func handlerUsers(s *state, cmd command) error {
 	return nil
 }
 
+// printUser prints the user
 func printUser(user database.User) {
 	fmt.Printf(" * ID:      %v\n", user.ID)
 	fmt.Printf(" * Name:    %v\n", user.Name)
