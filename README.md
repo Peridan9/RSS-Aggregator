@@ -13,6 +13,8 @@ The RSS Aggregator is a command-line tool written in Go that fetches and aggrega
 ## 🛠️ Technologies Used
 - **Go** – Main programming language
 - **PostgreSQL** – Database for storing feed data
+- **Goose** - Database migration tool for building tables
+- **SQLC** - Generates Go code for database queries
 - **Go Modules** – Dependency management
 - **CLI** – Command-line interface for user interaction
 The RSS Aggregator is a command-line tool written in Go that fetches and aggregates RSS feeds, allowing users to easily manage and read their subscribed content. This project was developed as part of a guided learning experience and serves as an example of a well-documented Go application.
